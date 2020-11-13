@@ -17,7 +17,7 @@
           </li>
         </ul>
       </div>
-      <div class="count" v-if="seller.supports">
+      <div class="count" v-if="seller.supports" @click="showDetail(true)">
         <span>{{seller.supports.length}}个</span><span class="iconfont icon-right"></span>
       </div>
     </div>
@@ -27,16 +27,31 @@
     <div class="bg">
     <img :src="seller.avatar" alt="" />
     </div>
+    <div class="fade">
+        <div class="detail" v-show="detailShow">
+          132
+    </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "Header",
+  data(){
+   return{
+      detailShow: false
+   }
+  },
   props: ["seller"],
    created() {
      
   },
+  methods:{
+    showDetail(isShow){
+      this.detailShow = isShow
+    }
+  }
 };
 </script>
 
@@ -44,13 +59,14 @@ export default {
   @import url('../../../assets/css/fonts/iconfont.css');
 
 .header {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 140px;
   background: rgba(7,17,27,0.5);
-  position: relative;
-  background: rgba(7,17,27,0.5);
+  background-color: #fff;
   blur: 10px;
   overflow: hidden;
   .title {
@@ -175,6 +191,19 @@ export default {
     height: 100%;
     filter: blur(10px);
     z-index: -1;
+  }
+  .fade{
+    .detail{
+      min-width: 100%;
+      min-height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:rgba(7,17,27,0.8) ;
+      z-index: 100;
+    }
   }
 }
 </style>

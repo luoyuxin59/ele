@@ -16,7 +16,9 @@ export default {
 
 <style lang="scss" scoped>
   .tab-bar {
+    position: relative;
     width: 100%;
+    background-color: #fff;
     border-bottom: 1px solid #f3f3f3;
     ul{
       display: flex;
