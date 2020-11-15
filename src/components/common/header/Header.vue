@@ -25,17 +25,26 @@
       <span class="notice-title"></span><span class="notice-text">{{seller.bulletin}}</span><span class="iconfont icon-right"></span>
     </div>
     <div class="bg">
-    <img :src="seller.avatar" alt="" />
+       <img :src="seller.avatar" alt="" />
     </div>
     <div class="fade">
         <div class="detail" v-show="detailShow">
-          132
-    </div>
+          <div class="title2">
+           {{ seller.name }}
+          </div>
+        <div class="star2">
+            <star :score="seller.serviceScore" :size="48"></star>
+        </div>
+        <div class="line"></div>
+        <div class="yhxx">优惠信息</div>
+        <div class="line"></div>
+    </div> 
     </div>
   </div>
 </template>
 
 <script>
+import Star from '../star/Star'
 export default {
   name: "Header",
   data(){
@@ -46,6 +55,9 @@ export default {
   props: ["seller"],
    created() {
      
+  },
+  components: {
+    Star
   },
   methods:{
     showDetail(isShow){
@@ -60,19 +72,19 @@ export default {
 
 .header {
   position: relative;
-  z-index: 1;
+  z-index: 999;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 140px;
-  background: rgba(7,17,27,0.5);
-  background-color: #fff;
+  background-color: rgba(7,17,27,0.5);
   blur: 10px;
   overflow: hidden;
   .title {
     position: relative;
     flex: 1;
     padding: 24px 12px 18px 24px;
+
     display: flex;
     img {
       width: 64px;
@@ -191,6 +203,10 @@ export default {
     height: 100%;
     filter: blur(10px);
     z-index: -1;
+      img{
+        width: 100%;
+      }
+    }
   }
   .fade{
     .detail{
@@ -202,8 +218,31 @@ export default {
       right: 0;
       bottom: 0;
       background:rgba(7,17,27,0.8) ;
-      z-index: 100;
-    }
+      z-index: 100; 
+      padding: 64px 0 32px;
+      .title2{
+          font-size: 16px;
+          color: #fff;
+          font-weight: 700;
+          line-height: 16px;
+          text-align: center;
+          margin-bottom: 16px;
+      }
+      .star2{
+        line-height: 24px;
+        text-align: center;
+        margin-bottom: 38px;
+      }
+      .yhxx{
+        text-align: center;
+        margin: 0 112px;
+        padding: 0 24px;
+        color: #fff;
+        font-weight: 700;
+      }
+      .line{
+        
+      }
   }
 }
 </style>

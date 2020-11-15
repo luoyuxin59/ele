@@ -7,43 +7,43 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll'
+import BScroll from "better-scroll";
 
 export default {
   name: "Scroll",
-  data(){
-    return{
-      scroll: false
-    }
+  data() {
+    return {
+      scroll: null,
+    };
   },
-mounted() {
-      this.$nextTick(() => {
-        //$refs绑定元素
-        if(!this.scroll){
-            this.scroll = new BScroll(this.$refs.wrapper, {
-            //开启点击事件 默认为false
-            click:true
-        })
-        // console.log(this.scroll)
-        }else if(!this.$refs.wrapper){
-            return
-        }
-        else{
-            this.scroll.refresh()
-        }
-      })
+
+  mounted() {
+      // 1.组件创建完成后调用=
+    this.scroll = new BScroll(this.$refs.wrapper, {
+      probeType: 3,
+      click: true,
+    })
+    console.log('scroll');
+    // 2.监听滚的位置
+    // this.scroll.on('scroll',(position) => {
+    //  this.$emit('scroll', position)
+    // })
+    // 3.监听上拉加载事件
+    // scroll.on('pullingUp', () => {
+    //   this.$emit('pullingUp')
+    // })
   },
   methods: {
-    refresh() {
+      refresh() {
         console.log('scroll');
-      this.scroll.refresh()
+        this.scroll && this.scroll.refresh()
       },
-  }
+  },
 };
 </script>
 
 <style scoped>
-  .warpper{
-    height: 100%;
-  }
+.warpper {
+  height: 100%;
+}
 </style>

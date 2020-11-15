@@ -1,7 +1,6 @@
 <template>
- 
   <div class="ratings">
-     <!-- <scroll class="conten">  -->
+  <scroll class="warpper" ref="scroll" > 
     <div class="overview">
       <div class="left">
         <div class="score">{{ seller.score }}</div>
@@ -37,8 +36,8 @@
           {{ item.name }}<span class="count">{{ item.count }}</span>
         </span>
       </div>
-      <div class="switch" @click="evelflag = !evelflag">
-        <i class="iconfont icon-ok" :class="{'on': evelflag}"></i>
+      <div class="switch" >
+        <i class="iconfont icon-ok" @click="evelflag = !evelflag" :class="{'on': evelflag}"></i>
         <span class="text">只看有内容的评价</span>
       </div>
       <div class="list">
@@ -70,20 +69,21 @@
         </ul>
       </div>
     </div> 
-
-     <!-- </scroll> -->
-
+    <ul> 
+     <li>1</li>
+      
+   </ul> 
+     </scroll>
   </div>
  
 </template>
 
 <script>
-import BScroll from 'better-scroll'
 
 import axios from "axios";
 import Star from "@/components/common/star/Star";
 import Spit from "@/components/common/split/Spit";
-// import Scroll from '@/components/common/scroll/Scroll'
+import Scroll from '@/components/common/scroll/Scroll'
 export default {
   name: "Ratings",
   data() {
@@ -107,34 +107,18 @@ export default {
           active: false,
         },
       ],
-      evelflag: true,
+      evelflag: false,
     };
   },
   created() {
-    this.getData();
+      this.getData();
   },
   components: {
     Star,
     Spit,
-    // Scroll
-
+    Scroll
   },
   mounted() {
-      // this.$nextTick(() => {
-      //   //$refs绑定元素
-      //   if(!this.scroll){
-      //       this.scroll = new BScroll(this.$refs.wrapper, {
-      //       //开启点击事件 默认为false
-      //       click:true
-      //   })
-      //   // console.log(this.scroll)
-      //   }else if(!this.$refs.wrapper){
-      //       return
-      //   }
-      //   else{
-      //       this.scroll.refresh()
-      //   }
-      // })
   },
   computed: {
     evelArr() {
@@ -145,12 +129,6 @@ export default {
           selectIndex = index;
         }
       });
-      // if (this.scroll) {
-      //   this.$nextTick(() => {
-      //     this.scroll.refresh();
-      //   });
-      // }
-      // console.log(this.$refs.scroll);
       return selectIndex
         ? this.ratings.filter((data) =>
             this.evelflag
@@ -193,20 +171,19 @@ export default {
 
 <style lang="scss" scoped>
 @import url('../../../../assets/css/fonts/iconfont.css');
-.ratings {
-  position: absolute;
-  top: 174px;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  // overflow: hidden;
-  color: rgba(7, 17, 27);
 
-  // overflow: hidden;
+.ratings {
+    position: absolute;
+    top: 180px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
   .overview {
     width: 100%;
     padding: 18px 0;
     display: flex;
+  
     .left {
       flex: 0 0 137px;
       width: 137px;

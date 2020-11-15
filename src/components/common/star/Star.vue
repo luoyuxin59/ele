@@ -44,7 +44,7 @@ export default {
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 .star {
     display: inline-block;
     margin: 0 12px;

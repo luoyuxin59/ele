@@ -1,7 +1,28 @@
 <template>
   <div class="seller">
     <scroll class="warpper">
-      <li>1</li>
+      <li><ul>
+        <li>1999</li>
+        <li>2999</li>
+        <li>3999</li>
+        <li>4999</li>
+        <li>5999</li>
+        <li>6999</li>
+        <li>7999</li>
+        <li>8999</li>
+        <li>9999</li>
+        <li>10999</li>
+        <li>11999</li>
+        <li>12999</li>
+        <li>13999</li>
+        <li>14999</li>
+        <li>15999</li>
+        <li>16999</li>
+        <li>17999</li>
+        <li>18999</li>
+        <li>19999</li>
+        <li>20999</li>
+        </ul></li>
       <li>2</li>
       <li>3</li>
       <li>4</li>
@@ -117,7 +138,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .warpper{
+
+  .seller{
     height: 300px;
     background-color: rosybrown;
     overflow: hidden;
