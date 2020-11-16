@@ -21,7 +21,7 @@
         <span>{{seller.supports.length}}个</span><span class="iconfont icon-right"></span>
       </div>
     </div>
-    <div class="notice">
+    <div class="notice"  @click="showDetail(true)">
       <span class="notice-title"></span><span class="notice-text">{{seller.bulletin}}</span><span class="iconfont icon-right"></span>
     </div>
     <div class="bg">
@@ -35,9 +35,27 @@
         <div class="star2">
             <star :score="seller.serviceScore" :size="48"></star>
         </div>
+        <div class="yhxx">
+          <div class="line"></div>
+        <div class="text">优惠信息</div>
         <div class="line"></div>
-        <div class="yhxx">优惠信息</div>
-        <div class="line"></div>
+        </div>
+        <div class="supports">
+          <ul>
+            <li class="supports-item" v-for="item in seller.supports">{{item.description}}</li>
+          </ul>
+        </div>
+        <div class="sjgg">
+          <div class="line"></div>
+          <div class="text">商家公告</div>
+          <div class="line"></div>
+        </div>
+        <div class="content">
+          {{seller.bulletin}}
+        </div>
+        <div class="back" @click="showDetail(false)">
+          ×
+        </div>
     </div> 
     </div>
   </div>
@@ -219,7 +237,7 @@ export default {
       bottom: 0;
       background:rgba(7,17,27,0.8) ;
       z-index: 100; 
-      padding: 64px 0 32px;
+        padding: 64px 0 32px;
       .title2{
           font-size: 16px;
           color: #fff;
@@ -231,17 +249,67 @@ export default {
       .star2{
         line-height: 24px;
         text-align: center;
-        margin-bottom: 38px;
       }
       .yhxx{
+        display: flex;
+        padding:  28px 36px 24px;
+        .text{
         text-align: center;
-        margin: 0 112px;
-        padding: 0 24px;
         color: #fff;
-        font-weight: 700;
+        font-weight: 500;
+        padding: 0 12px;
+        // margin-bottom: 24px;
       }
       .line{
-        
+        position: relative;
+        top: 8px;
+        width: 107px;
+        height: 2px;
+        background: rgba(255,255,255, .2);
+        flex: 1;
+       }
+      }
+      .supports{
+        padding: 0 48px;
+        .supports-item {
+          font-size: 12px;
+          line-height: 14px;
+          color: #fff;
+          font-weight: 700;
+          margin-bottom: 12px;
+        }
+      }
+      .sjgg{
+        display: flex;
+        padding:  28px 36px 24px;
+        .text{
+        text-align: center;
+        color: #fff;
+        font-weight: 500;
+        padding: 0 12px;
+    
+        }
+        .line{
+        position: relative;
+        top: 8px;
+        width: 107px;
+        height: 2px;
+        background: rgba(255,255,255, .2);
+        flex: 1;
+       }
+      }
+      .content{
+        font-size: 12px;
+        color: #fff;
+        line-height: 24px;
+        padding: 0 48px;
+      }
+      .back{
+        margin-top: 80px;
+        font-size: 32px;
+        color: #fff;
+        text-align: center;
+        line-height: 16px;
       }
   }
 }

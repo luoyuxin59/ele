@@ -2,7 +2,7 @@
   <div id="app">
     <Header :seller="seller"></Header>
     <tab-bar/>
-    <router-view/>
+    <router-view :seller="seller" />
   </div>
 </template>
 
@@ -36,5 +36,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import url('../src/assets/css/base.css');
-
+ #app{
+   height: 100vh;
+   position: relative;
+ }
 </style>
+

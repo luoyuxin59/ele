@@ -1,147 +1,268 @@
 <template>
-  <div class="seller">
-    <scroll class="warpper">
-      <li><ul>
-        <li>1999</li>
-        <li>2999</li>
-        <li>3999</li>
-        <li>4999</li>
-        <li>5999</li>
-        <li>6999</li>
-        <li>7999</li>
-        <li>8999</li>
-        <li>9999</li>
-        <li>10999</li>
-        <li>11999</li>
-        <li>12999</li>
-        <li>13999</li>
-        <li>14999</li>
-        <li>15999</li>
-        <li>16999</li>
-        <li>17999</li>
-        <li>18999</li>
-        <li>19999</li>
-        <li>20999</li>
-        </ul></li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-      <li>5</li>
-      <li>6</li>
-      <li>7</li>
-      <li>8</li>
-      <li>9</li>
-      <li>10</li>
-      <li>11</li>
-      <li>12</li>
-      <li>13</li>
-      <li>14</li>
-      <li>15</li>
-      <li>16</li>
-      <li>17</li>
-      <li>18</li>
-      <li>19</li>
-      <li>20</li>
-      <li>21</li>
-      <li>22</li>
-      <li>23</li>
-      <li>24</li>
-      <li>25</li>
-      <li>26</li>
-      <li>27</li>
-      <li>28</li>
-      <li>29</li>
-      <li>30</li>
-      <li>31</li>
-      <li>32</li>
-      <li>33</li>
-      <li>34</li>
-      <li>35</li>
-      <li>36</li>
-      <li>37</li>
-      <li>38</li>
-      <li>39</li>
-      <li>40</li>
-      <li>41</li>
-      <li>42</li>
-      <li>43</li>
-      <li>44</li>
-      <li>45</li>
-      <li>46</li>
-      <li>47</li>
-      <li>48</li>
-      <li>49</li>
-      <li>50</li>
-      <li>51</li>
-      <li>52</li>
-      <li>53</li>
-      <li>54</li>
-      <li>55</li>
-      <li>56</li>
-      <li>57</li>
-      <li>58</li>
-      <li>59</li>
-      <li>60</li>
-      <li>61</li>
-      <li>62</li>
-      <li>63</li>
-      <li>64</li>
-      <li>65</li>
-      <li>66</li>
-      <li>67</li>
-      <li>68</li>
-      <li>69</li>
-      <li>70</li>
-      <li>71</li>
-      <li>72</li>
-      <li>73</li>
-      <li>74</li>
-      <li>75</li>
-      <li>76</li>
-      <li>77</li>
-      <li>78</li>
-      <li>79</li>
-      <li>80</li>
-      <li>81</li>
-      <li>82</li>
-      <li>83</li>
-      <li>84</li>
-      <li>85</li>
-      <li>86</li>
-      <li>87</li>
-      <li>88</li>
-      <li>89</li>
-      <li>90</li>
-      <li>91</li>
-      <li>92</li>
-      <li>93</li>
-      <li>94</li>
-      <li>95</li>
-      <li>96</li>
-      <li>97</li>
-      <li>98</li>
-      <li>99</li>
-      <li>100</li>
-   </scroll>
+  <div class="seller" ref="seller">
+    <div>
+      <div class="name">
+        <div class="left">
+          <div class="text">{{ seller.name }}</div>
+          <star class="star" :score="seller.serviceScore" :size="36"></star>
+          <span class="count">({{ seller.ratingCount }})</span>月售单
+        </div>
+        <div class="right" @click="favoriteClick">
+          <span
+            class="iconfont icon-icon4"
+            :class="{ active: favorite }"
+          ></span>
+          <div class="sc">{{ favorite ? "已收藏" : "收藏" }}</div>
+        </div>
+      </div>
+      <div class="info">
+        <div class="item">
+          <div class="item-text">起送价</div>
+          {{ seller.minPrice }}<span>元</span>
+        </div>
+        <div class="item2 item">
+          <div class="item-text">商家配送</div>
+          {{ seller.deliveryPrice }}<span>元</span>
+        </div>
+        <div class="item">
+          <div class="item-text">平均配送时间</div>
+          {{ seller.deliveryTime }}<span>分钟</span>
+        </div>
+      </div>
+      <spit />
+      <div class="bulletin">
+        <h4 class="title">公告与活动</h4>
+        <p class="text border">{{ seller.bulletin }}</p>
+        <ul class="supports">
+          <i class="icon"></i>
+          <li
+            class="supports-item border"
+            v-for="item in seller.supports"
+            :key="item.type"
+          >
+            {{ item.description }}
+          </li>
+        </ul>
+      </div>
+      <spit />
+      <div class="pics">
+        <div class="name1">商家实景</div>
+        <div class="pic-wrapper" ref="picWrapper">
+          <ul class="pic-list" ref="picList">
+            <li class="pic-item" v-for="pic in seller.pics">
+              <img width="120" height="90" :src="pic" />
+            </li>
+          </ul>
+        </div>
+      </div>
+      <spit />
+      <div class="other ">
+        <div class="other-title border ">商家信息</div>
+        <div class="other-info">
+          <ul>
+            <li class=" info-item border" v-for="item in seller.infos">{{item}}</li>
+          </ul>
+        </div>
+      </div>
+      <!-- <ul>
+        <li v-for="i in 100">{{ i }}</li>
+      </ul> -->
+    </div>
   </div>
 </template>
 
 <script>
-import Scroll from '@/components/common/scroll/Scroll'
+// import Scroll from "@/components/common/scroll/Scroll";
+import Star from "@/components/common/star/Star";
+import Spit from "../../../../components/common/split/Spit";
+import BScroll from "better-scroll";
 
 export default {
-  name: 'Seller',
+  name: "Seller",
+  props: {
+    seller: {},
+  },
+  data() {
+    return {
+      favorite: localStorage.getItem("favorite"),
+    };
+  },
   components: {
-    Scroll
-  }
+    // Scroll,
+    Star,
+    Spit,
+  },
+  created() {
+    this.seller;
+    this._initScroll();
+  },
+  methods: {
+    favoriteClick($event) {
+      if (!$event._constructed) {
+        return;
+      }
+      this.favorite = !this.favorite;
+      // 保存
+      localStorage.setItem("favorite", this.favorite);
+    },
+    _initScroll() {
+      this.$nextTick(() => {
+       new BScroll(this.$refs.seller,{
+         click: true
+       })
+       const liWidth = 120
+       const space = 6
+      //  给ul指定宽度
+      const ul = this.$refs.picWrapper.children[0]
+      const liConunt = ul.children.length
+      ul.style.width = ((liWidth+space) * liConunt - space) + 'px'
+      new BScroll(this.$refs.picWrapper, {
+        click: true,
+        scrollX: true
+      })
+      })
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-
-  .seller{
-    height: 300px;
-    background-color: rosybrown;
-    overflow: hidden;
+.border:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(7, 17, 27, 0.1);
+  width: 100%;
+  height: 1px;
+  transform: scaleY(0.5);
+}
+.seller {
+   position: absolute;
+    top: 180px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  overflow: hidden;
+  .name {
+    height: 60px;
+    display: flex;
+    padding: 8px 24px 16px 16px;
+    font-size: 10px;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    .left {
+      .star {
+        margin-left: 0;
+        margin-top: 5px;
+      }
+      .count {
+        margin-right: 10px;
+      }
+      .text {
+        font-size: 12px;
+        color: #333;
+        font-weight: 600;
+      }
+    }
+    .right {
+      width: 36px;
+      margin-top: -6px;
+      text-align: center;
+      .icon-icon4 {
+        font-size: 26px;
+        vertical-align: top;
+      }
+      .active {
+        color: red;
+      }
+    }
   }
+  .info {
+    padding: 16px 16px 24px 16px;
+    display: flex;
+    text-align: center;
+    .item2 {
+      border-left: 1px solid #ccc;
+      border-right: 1px solid #ccc;
+    }
+    .item {
+      flex: 1;
+      font-size: 28px;
+      color: #111;
+      .item-text {
+        font-size: 10px;
+        color: #ccc;
+        font-weight: 500;
+      }
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+  .bulletin {
+    margin: 16px 16px 0 16px;
+    .title {
+      color: #333;
+      font-size: 16px;
+    }
+    .text {
+      position: relative;
+      padding: 10px 18px 16px 10px;
+      line-height: 25px;
+      color: red;
+      font-size: 10px;
+      font-weight: 500;
+    }
+    .supports {
+   
+      color: #333;
+      .supports-item {
+        position: relative;
+        padding-left: 10px;
+        line-height: 38px;
+        font-size: 10px;
+      }
+    }
+  }
+  .pics {
+    margin: 16px;
+    .name1 {
+      font-size: 13px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .pic-wrapper{
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+     .pic-list{
+       .pic-item{
+          display: inline-block;
+          margin-right: 6px;;
+          width: 120px;
+          height: 90px;
+       }
+     }
+  }
+  .other{
+    padding: 16px;
+     color: #111;
+    .other-title {
+      position: relative;
+      font-size: 14px;
+      padding-bottom: 8px;
+    }
+    .other-info{
+      .info-item{
+        position: relative;
+        padding-left: 10px;
+        font-size: 10px;
+        line-height: 44px;
+    }
+    }
+    
+  }
+}
 </style>

@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "736200",
+      "name": "爱心",
+      "font_class": "icon4",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
       "icon_id": "856960",
       "name": "√",
       "font_class": "ok",
