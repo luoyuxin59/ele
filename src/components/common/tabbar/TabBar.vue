@@ -20,12 +20,13 @@ export default {
     width: 100%;
     background-color: #fff;
     border-bottom: 1px solid #f3f3f3;
+    font-size: 14px;
     ul{
       display: flex;
       text-align: center;
       li{
         flex: 1;
-        line-height: 40px;
+        line-height: 32px;
       }
       .router-link-active{ 
         color: #f00;

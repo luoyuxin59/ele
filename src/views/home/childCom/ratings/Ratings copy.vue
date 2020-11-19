@@ -1,7 +1,7 @@
 <template>
   <div class="ratings">
    
-    <scroll ref="scroll">
+    <scroll ref="scrollBox">
       
       <div class="overview">
         <div class="left">
@@ -27,39 +27,45 @@
       </div>
     
       <spit></spit>
-          <rating-list  
-                        :selectType="selectType"
-                        ref="ratingList" 
-                        :ratings="ratings"
-                        :onlyContent="onlyContent"
-                        @setSelectType="setSelectType"
-                        @switchOnlyContent="switchOnlyContent" >
+     <rating-list :evelflag="evelflag" 
+                  :classifyArr="classifyArr"
+                    ref="ratingList" 
+                    :ratings="ratings"
+                    @switchOnlyContent="switchOnlyContent" >
       </rating-list>
       <div class="list">
           <ul>
-            <li v-for="(item, index) in filterRatings" :key="index">
+            <li v-for="(item, index) in evelArr" :key="index">
               <div class="avatar">
                 <img :src="item.avatar" alt="" width="28" height="28" />
               </div>
               <div class="content">
                 <div class="content-title">
                   <span class="title">{{ item.username }}</span>
-                  <span class="time">{{ item.rateTime | date-string}}</span>
+                  <span class="time">{{ item.rateTime }}</span>
                 </div>
                 <div class="star-warper">
                   <star class="star" :score="item.score" :size="24"></star>
                   <span v-show="item.deliveryTime" class="deliveryTime"
-                    >{{ item.deliveryTime }}分钟送达</span >
+                    >{{ item.deliveryTime }}分钟送达</span
+                  >
                 </div>
                 <div class="text">
                   {{ item.text }}
                 </div>
                 <div class="recommend">
-                  <i class="iconfont"  :class="item.rateType == 0 ? 'icon-zan' : ' icon-cai'"  ></i>
+                  <i
+                    class="iconfont"
+                    :class="item.rateType == 0 ? 'icon-zan' : ' icon-cai'"
+                  ></i>
 
-                  <span class="recommend-item"
+                  <span
+                    class="recommend-item"
                     v-for="(recommend, index) in item.recommend"
-                    :key="index"   >  {{ recommend }}</span >
+                    :key="index"
+                  >
+                    {{ recommend }}</span
+                  >
                 </div>
               </div>
             </li>
@@ -82,8 +88,24 @@ export default {
     return {
       seller: [],
       ratings: [],
-      selectType: 2,
-      onlyContent: false,
+      classifyArr: [
+        {
+          name: "全部",
+          count: 0,
+          active: true,
+        },
+        {
+          name: "推荐",
+          count: 0,
+          active: false,
+        },
+        {
+          name: "不满意",
+          count: 0,
+          active: false,
+        },
+      ],
+        evelflag: false,
     };
   },
   created () {
@@ -100,41 +122,24 @@ export default {
   
   },
 computed: {
-  //   evelArr () {
-  //     let selectIndex = 0;
-  //     this..forEach((data, index) => {
-  //       console.log(data.active);
-  //       if (data.active) {
-  //         selectIndex = index;
-  //       }
-  //     });
-     
-  //      return selectIndex
-  //       ? this.ratings.filter((data) =>
-  //         this.evelflag
-  //           ? data.rateType === selectIndex - 1 && data.text
-  //           : data.rateType === selectIndex - 1
-  //       )
-  //       : this.ratings.filter((data) => (this.evelflag ? data.text : true));
-  //        console.log(data);
-  //   },
-   filterRatings () {
-        if(!this.ratings) {
-          return
+    evelArr () {
+      let selectIndex = 0;
+      this.classifyArr.forEach((data, index) => {
+        console.log(data.active);
+        if (data.active) {
+          selectIndex = index;
         }
-        const {selectType, onlyContent} = this
-        // selectType: 0, 1, 2
-        // onlyContent: true false
-        return this.ratings.filter(rating => {
-          if(selectType===2) {
-            // 如果onlyContent为false, 直接返回true, 否则还要看text有没有值
-            return !onlyContent || !!rating.text
-          } else {
-            // 既要比较type, 还要比较content
-            return selectType=== rating.rateType && (!onlyContent || !!rating.text)
-          }
-        })
-      }
+      });
+     
+       return selectIndex
+        ? this.ratings.filter((data) =>
+          this.evelflag
+            ? data.rateType === selectIndex - 1 && data.text
+            : data.rateType === selectIndex - 1
+        )
+        : this.ratings.filter((data) => (this.evelflag ? data.text : true));
+         console.log(data);
+    },
   },
   methods: {
     getData () {
@@ -144,24 +149,13 @@ computed: {
         console.log(this.ratings);
 
         this.$nextTick(() => {
-          this.$refs.scroll.init()
+          this.$refs.scrollBox.init()
+           this.$refs.ratingList._initClassifyArr();
         })
       });
     },
-       setSelectType (selectType) {
-      this.selectType = selectType
-      console.log( this.selectType );
-      this.$nextTick(() => {
-        // 刷新列表的Scroll对象
-        this.$refs.scroll.refresh()
-        })
-      },
-    switchOnlyContent(event) {
-      this.onlyContent = !this.onlyContent
-       this.$nextTick(() => {
-          // 刷新列表的Scroll对象
-          this.$refs.scroll.refresh()
-        })
+    switchOnlyContent(){
+      this.evelflag =!this.evelflag
     }
   },
 };

@@ -84,7 +84,7 @@ export default {
   },
   data() {
     return {
-      favorite: localStorage.getItem("favorite"),
+      favorite: localStorage.getItem("favorite") === 'true',
     };
   },
   components: {
@@ -103,7 +103,7 @@ export default {
       }
       this.favorite = !this.favorite;
       // 保存
-      localStorage.setItem("favorite", this.favorite);
+      localStorage.setItem("favorite", !this.favorite);
     },
     _initScroll() {
       this.$nextTick(() => {

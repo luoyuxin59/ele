@@ -11,19 +11,15 @@ import BScroll from "better-scroll";
 
 export default {
   name: "Scroll",
-  data() {
+  data () {
     return {
       scroll: null,
     };
   },
 
-  mounted() {
-      // 1.组件创建完成后调用=
-    this.scroll = new BScroll(this.$refs.wrapper, {
-      probeType: 3,
-      click: true,
-    })
-    console.log('scroll');
+  mounted () {
+    // 1.组件创建完成后调用=
+
     // 2.监听滚的位置
     // this.scroll.on('scroll',(position) => {
     //  this.$emit('scroll', position)
@@ -34,10 +30,23 @@ export default {
     // })
   },
   methods: {
-      refresh() {
-        console.log('scroll');
-        this.scroll && this.scroll.refresh()
-      },
+    init () {
+      this.scroll = new BScroll(this.$refs.wrapper, {
+        probeType: 3,
+        click: true,
+      })
+      console.log('scroll', this.scroll);
+         // 监听滚动的位置
+         this.scroll.on('scroll',(position) => {
+           this.$emit('scroll',position)
+        })
+    },
+    refresh () {
+      console.log('scroll');
+      this.scroll && this.scroll.refresh()
+    },
+ 
+    
   },
 };
 </script>

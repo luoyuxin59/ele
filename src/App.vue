@@ -16,7 +16,7 @@ export default {
   name: 'app',
   data() {
     return  {
-      seller: []
+      seller: {}
     }
   },
   components: {
@@ -25,12 +25,14 @@ export default {
 
   },
     created() {
-    axios('/mock/data.json').then((res) => {
+    setTimeout(() => {
+      axios('/mock/data.json').then((res) => {
       if(res.status == 200) {
         console.log(res.data.seller);
         this.seller = res.data.seller
       }
     })
+    }, 1000);
   }
 }
 </script>

@@ -20,6 +20,20 @@
       "unicode_decimal": 58897
     },
     {
+      "icon_id": "998483",
+      "name": "购物车",
+      "font_class": "ai66",
+      "unicode": "e6b8",
+      "unicode_decimal": 59064
+    },
+    {
+      "icon_id": "1089289",
+      "name": "返回",
+      "font_class": "buoumaotubiao09",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
       "icon_id": "3858848",
       "name": "赞",
       "font_class": "zan",

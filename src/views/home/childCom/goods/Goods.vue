@@ -1,21 +1,24 @@
 <template>
+<div>
   <div class="goods">
     <div class="tab" ref="tabWrapper">
       <ul>
-        <li class="tab-item  " :class="{'active' : currentIndex == index}" 
-        @click="tabClick(index)" v-for="(item,index) in category" :key="index">
+        <li class="tab-item  " :class="{active : currentIndex == index}" 
+         @click="clickMenuItem(index, $event)" v-for="(item,index) in goods" :key="index"
+        >
           <span class="border">{{item.name}}</span>
         </li>
       </ul>
     </div>
     <div class="foods" ref="foodsWrapper">
       <div  class="foods">
-        <div v-for="(item, index) in category" :key="index">
+        <div class="food-list-hook" v-for="(item, index) in goods" :key="index">
           <div class="foods-title">{{item.name}}</div>
           <ul>
-            <li class="foods-item border" v-for="(food, index) in item.foods" :key="index">
+            <li class="foods-item border" v-for="(food, index) in item.foods" :key="index" 
+               @click="foodClick(food, $event)">
               <img class="icon" :src="food.icon" alt="">
-              <div class="item-info">
+              <div class="item-info ">
                 <div class="name">{{food.name}}</div>
                 <div v-if="food.description" class="description">{{food.description}}</div>
                 <div class="other">
@@ -24,55 +27,151 @@
                 <div class="price">
                   <span class="newPirce">￥{{food.price}}</span>
                   <span v-if="food.oldPrice" class="oldPrice">￥{{food.oldPrice}}</span>
-                </div>
-                <div class="addCart">+</div>
+                </div>             
               </div>
-            </li>
+                <cart-control :food="food" class="control" :update-food-count="updateFoodCount"></cart-control>
+            </li>  
           </ul>
         </div>
         </div>
     </div>
-  </div>
+     <cart  :minPrice="seller.minPrice" :foodList="foodList" 
+     :update-food-count="updateFoodCount"></cart>
+   </div>
+     <food :updateFoodCount="updateFoodCount" :food="selectFood" ref="food"></food>
+     </div>
 </template>
 
 <script>
 import axios from 'axios'
 import Vue from 'vue'
 import BScroll from 'better-scroll'
+import Cart from '@/components/common/cart/Cart'
+import CartControl from '@/components/common/cartControl/CartContol'
+import Food from '@/components/common/food/food'
 export default {
   name: "Goods",
+  props: {
+    seller: Object
+  },
   data() {
     return{
-      category: [],
-      currentIndex: 0
+      goods: [],
+      // currentIndex: 0,
+      foodsScroll: null,
+      scrollY: 0,
+      tops: [],
+      selectFood: {},
     }
+  },
+  components: {
+    Cart,
+    CartControl,
+    Food
+    
   },
   created() {
     axios.get('/api2/goods').then(res => {
-      this.category = res.data.data
-      console.log(this.category );
+      this.goods = res.data.data
+      console.log(this.goods );
+  
       Vue.nextTick(() => {
         this.initScroll()
+        this.initTops()
       }) 
     })
   },
+  computed: {
+    currentIndex() {
+      const {tops, scrollY} = this;
+      // findIndex返回tops的索引位置  将此位置添加active 类名  
+      return tops.findIndex((top, index) => {
+        return scrollY >= top && scrollY < tops[index +1]
+      });
+    },
+    foodList() {
+      // 遍历有count属性的food 
+      const foods = []
+      this.goods.forEach(good => {
+        good.foods.forEach(food => {
+          if(food.count) {
+            foods.push(food)
+          }
+        })
+      })
+      return  foods
+    }
+  },
   methods: {
-    tabClick(index) {
-        console.log(index);
-      this.currentIndex = index
-      console.log('-----');
-      console.log(this.currentIndex);
+    clickMenuItem(index, event) {
+      console.log(event);
+      if(!event._constructed) {
+        return
+      }
+      // 将右侧的列表滚动到对应的位置 
+      var li = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook')[index]
+      console.log(li);
+      this.foodsScroll.scrollToElement(li, 300)
     },
     initScroll() {
       // 创建分类列表的Scroll对象
       new BScroll(this.$refs.tabWrapper,{
         click: true
       })
-      new BScroll(this.$refs.foodsWrapper, {
-
+      // 创建foodsScroll对象
+     this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+       click: true,
+       probeType: 3
       })
+      // 绑定scroll监听 
+      this.foodsScroll.on('scroll',(pos) => {
+         this.scrollY = Math.abs(pos.y)
+      })
+    },
+    initTops() {
+      var tops = this.tops
+      var top = 0
+      tops.push(top)
+      var lis = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
+      lis.forEach(li => {
+        top += li.clientHeight
+        tops.push(top)
+      })
+    },
+    updateFoodCount(food, isAdd, event) {
+      // if(!event._constructed) {
+      //   return 
+      // }
+      if(isAdd) { //增加
+        if(!food.count) { //第一次
+         console.log('第一次click');
+          // 新增count属性
+          Vue.set(food, 'count', 1)
+        }else {
+          food.count++
+        }
+      }else { //减少
+        if(food.count) {
+          food.count--
+          if(food.length == 0) {
+
+          }
+        }
+      }
+    },
+     foodClick(food, event) {
+        console.log(food);
+         if(!event._constructed) {
+          return
+        }
+      //  传到详情页面 
+       this.$refs.food.show(true)
+      this.selectFood  = food
+      console.log( this.selectFood);
+     
     }
-  }
+  },
+ 
 }
 </script>
 
@@ -90,9 +189,9 @@ export default {
   .goods {
     display: flex;
     position: absolute;
-    top: 181px;
+    top: 173px;
     left: 0;
-    bottom: 56px;
+    bottom: 46px;
     width: 100%;
     overflow: hidden;
     .tab{
@@ -102,7 +201,7 @@ export default {
       background: #f3f5f7;
       .tab-item{
         display: table;
-        height: 54px;
+        height: 52px;
         width: 80px;
         padding: 0 12px;
         line-height: 14px;
@@ -172,22 +271,14 @@ export default {
               text-decoration: line-through;
             }
           }
-          .addCart{
-            position: absolute;
-            right: 0px;
-            bottom: 0px;
-            width: 20px;
-            height: 20px;
-            line-height: 20px;
-            border-radius: 50%;
-            background: #00a0dc;
-            text-align: center;
-            color: #fff;
-            font-weight: 500;
-            font-size: 20px;
-          }
         }
       }
     }
+    .control{
+      position: absolute;
+      right: 4px;
+      bottom: 16px;
+    }
+  
   }
 </style>

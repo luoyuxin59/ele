@@ -21,8 +21,8 @@
         <span>{{seller.supports.length}}个</span><span class="iconfont icon-right"></span>
       </div>
     </div>
-    <div class="notice"  @click="showDetail(true)">
-      <span class="notice-title"></span><span class="notice-text">{{seller.bulletin}}</span><span class="iconfont icon-right"></span>
+    <div class="notice" >
+      <span class="notice-title"></span><span  @click="showDetail(true)" class="notice-text">{{seller.bulletin}}</span><span class="iconfont icon-right"></span>
     </div>
     <div class="bg">
        <img :src="seller.avatar" alt="" />
@@ -90,7 +90,7 @@ export default {
 
 .header {
   position: relative;
-  z-index: 999;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   width: 100%;

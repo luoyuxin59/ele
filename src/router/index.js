@@ -4,18 +4,16 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
-  
-
-    
-      // {
-      //   path: '',
-      //   require: 'Goods',
-      //   component: () => import('@/views/home/childCom/goods/Goods.vue')
-      // },
+      {
+        path: '',
+        require: 'Goods',
+        component: () => import('@/views/home/childCom/goods/Goods.vue')
+      },
       {
         path: '/goods',
         name: 'Goods',
-        component: () => import('@/views/home/childCom/goods/Goods.vue')
+        component: () => import('@/views/home/childCom/goods/Goods.vue'),
+       
       },
       {
         path: '/ratings',
